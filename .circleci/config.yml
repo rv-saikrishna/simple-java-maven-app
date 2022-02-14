@@ -34,7 +34,7 @@ jobs:
             --repo ${CIRCLE_PROJECT_REPONAME} \
             --tag ${VERSION} \
             --name "the wolf of source street" \
-            --file artifacrs/target/
+            --file artifacts/target
 
 
 workflows:
