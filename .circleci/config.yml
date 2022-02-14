@@ -20,7 +20,7 @@ jobs:
 
   publish-github-release:
     docker:
-      - image: cibuilds/github:0.10
+      - image: circleci/golang:1.8
     steps:
       - attach_workspace:
           at: ./artifacts
@@ -28,7 +28,13 @@ jobs:
           name: "Publish Release on GitHub"
           command: |
             VERSION=$(cat artifacts/pom.xml | grep "<version>.*</version>" | head -1 |awk -F'[><]' '{print $3}')
-            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./artifacts/target
+            go get github.com/github-release/github-release
+            github-release upload \
+            --user ${CIRCLE_PROJECT_USERNAME} \
+            --repo ${CIRCLE_PROJECT_REPONAME} \
+            --tag ${VERSION} \
+            --name "the wolf of source street" \
+            --file artifacrs/target/
 
 
 workflows:
