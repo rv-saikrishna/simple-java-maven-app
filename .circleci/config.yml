@@ -37,7 +37,7 @@ jobs:
             --repo ${CIRCLE_PROJECT_REPONAME} \
             --tag ${VERSION} \
             --name "simple-app-jar" \
-            --file target/*.jar
+            --file target/*.jar  || echo "cant create a release on the same TAG: ${VERSION}"
 
 workflows:
   build-and-deploy:
