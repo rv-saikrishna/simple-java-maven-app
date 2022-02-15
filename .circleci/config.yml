@@ -34,7 +34,7 @@ workflows:
           filters:
             branches:
               only:
-                - main
+                - master
           notes-file: changelog.md
           requires:
             - build
