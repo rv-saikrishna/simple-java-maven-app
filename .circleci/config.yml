@@ -40,3 +40,4 @@ workflows:
             - build
           tag: $VERSION
           title: The initial release
+          files: target/*.jar
