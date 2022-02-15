@@ -2,8 +2,7 @@ version: 2.1
 
 orbs:
   maven: circleci/maven@1.0.2
-  github-cli: circleci/github-cli@2.0.0
-
+  gh: circleci/github-cli@1.0
 
 jobs:
   build:
@@ -18,18 +17,7 @@ jobs:
           root: .
           paths:
             - ./
-
-  publish-github-release:
-    docker:
-      - image: cimg/openjdk:8.0
-    steps:
-      - attach_workspace:
-          at: .
       - run: VERSION=$(cat artifacts/pom.xml | grep "<version>.*</version>" | head -1 |awk -F'[><]' '{print $3}')
-      - gh/release:
-          files: target/*.jar
-          notes-file: ./changelog.md
-          tag: $VERSION
 
 workflows:
   build-and-deploy:
@@ -42,13 +30,13 @@ workflows:
             tags:
               ignore:
                 - /v.*/
-      - publish-github-release:
-          requires:
-            - build
+      - gh/release:
           filters:
             branches:
               only:
-                - master
-            tags:
-              ignore:
-                - /v.*/
+                - main
+          notes-file: changelog.md
+          requires:
+            - build
+          tag: 1.0.0
+          title: The initial release
