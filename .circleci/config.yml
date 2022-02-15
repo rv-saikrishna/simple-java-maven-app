@@ -32,11 +32,9 @@ workflows:
                 - /v.*/
       - gh/release:
           pre-steps:
-            - attach_workspace:
-                at: ./artifacts
             - run: 
                 command: |
-                  VERSION=$(cat artifacts/pom.xml | grep "<version>.*</version>" | head -1 |awk -F'[><]' '{print $3}')  
+                  VERSION=`mvn help:evaluate -Dexpression=project.version | grep "^[^\[]"`
           filters:
             branches:
               only:
