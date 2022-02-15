@@ -39,4 +39,5 @@ workflows:
           notes-file: CHANGELOG.md
           requires:
             - build
+          tag: ${PARAM_GH_TAG}
           title: The initial release
