@@ -23,6 +23,9 @@ jobs:
     steps:
       - attach_workspace:
           at: ./artifacts
+      - add_ssh_keys:
+          fingerprints:
+            - "70:8a:91:af:e3:3e:25:de:09:eb:4b:ad:ab:cd:99:3a"
       - run:
           name: "Publish Release on GitHub"
           command: |
