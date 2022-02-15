@@ -17,10 +17,7 @@ jobs:
           root: .
           paths:
             - ./
-      - run: VERSION=$(cat pom.xml | grep "<version>.*</version>" | head -1 |awk -F'[><]' '{print $3}')
-      - gh/release:
-          files: target/*.jar
-
+  
 
 workflows:
   build-and-deploy:
@@ -34,13 +31,18 @@ workflows:
               ignore:
                 - /v.*/
       - gh/release:
+          pre-steps:
+            - attach_workspace:
+                at: .
+            - run: 
+                command: |
+                  VERSION=$(cat pom.xml | grep "<version>.*</version>" | head -1 |awk -F'[><]' '{print $3}')  
           filters:
             branches:
               only:
                 - master
-          notes-file: CHANGELOG.md
+          notes-file: changelog.md
           requires:
             - build
-          tag: $VERSION
+          tag: ${VERSION}
           title: The initial release
-          files: target/*.jar
