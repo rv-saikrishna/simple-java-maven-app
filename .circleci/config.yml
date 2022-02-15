@@ -34,7 +34,7 @@ jobs:
             --repo ${CIRCLE_PROJECT_REPONAME} \
             --tag ${VERSION} \
             --name "simple-app-jar" \
-            --file artifacts/target/*.jar
+            --file target/*.jar
 
 workflows:
   build-and-deploy:
