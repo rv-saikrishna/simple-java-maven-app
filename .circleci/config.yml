@@ -33,10 +33,10 @@ workflows:
       - gh/release:
           pre-steps:
             - attach_workspace:
-                at: .
+                at: ./artifacts
             - run: 
                 command: |
-                  VERSION=$(cat pom.xml | grep "<version>.*</version>" | head -1 |awk -F'[><]' '{print $3}')  
+                  VERSION=$(cat artifacts/pom.xml | grep "<version>.*</version>" | head -1 |awk -F'[><]' '{print $3}')  
           filters:
             branches:
               only:
