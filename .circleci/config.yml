@@ -27,7 +27,7 @@ jobs:
           name: "Publish Release on GitHub"
           command: |
             go get github.com//github-release/github-release
-            VERSION=$(cat artifacts/pom.xml | grep "<version>.*</version>" | head -1 |awk -F'[><]' '{print $3}')
+            cd artifacts &&  VERSION=$(cat pom.xml | grep "<version>.*</version>" | head -1 |awk -F'[><]' '{print $3}')
             git tag $VERSION && git push --tags
             github-release upload \
             --user ${CIRCLE_PROJECT_USERNAME} \
