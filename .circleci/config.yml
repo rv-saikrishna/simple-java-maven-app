@@ -31,7 +31,7 @@ jobs:
             github-release release \
                 --user ${CIRCLE_PROJECT_USERNAME} \
                 --repo ${CIRCLE_PROJECT_REPONAME}\
-                --tag ${VERSION} || echo "Tag '${VERSION}' already exist" &&
+                --tag ${VERSION} || echo "Tag '${VERSION}' already exist"; exit 0 &&
             github-release upload \
             --user ${CIRCLE_PROJECT_USERNAME} \
             --repo ${CIRCLE_PROJECT_REPONAME} \
