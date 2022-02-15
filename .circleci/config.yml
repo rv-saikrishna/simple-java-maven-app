@@ -35,7 +35,7 @@ workflows:
             branches:
               only:
                 - master
-          notes-file: changelog.md
+          notes-file: CHANGELOG.md
           requires:
             - build
           tag: $VERSION
