@@ -13,6 +13,7 @@ jobs:
       - maven/with_cache:
           steps:
             - run: bash jenkins/scripts/deliver.sh
+      - run: GH_VERSION=$(cat pom.xml | grep "<version>.*</version>" | head -1 |awk -F'[><]' '{print $3}')
       - persist_to_workspace:
           root: .
           paths:
@@ -31,10 +32,6 @@ workflows:
               ignore:
                 - /v.*/
       - gh/release:
-          pre-steps:
-            - run: 
-                command: |
-                  VERSION=`mvn help:evaluate -Dexpression=project.version | grep "^[^\[]"`
           filters:
             branches:
               only:
@@ -42,5 +39,5 @@ workflows:
           notes-file: changelog.md
           requires:
             - build
-          tag: ${VERSION}
+          tag: ${GH_VERSION}
           title: The initial release
