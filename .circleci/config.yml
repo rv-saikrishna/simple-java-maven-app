@@ -31,13 +31,7 @@ jobs:
             github-release release \
                 --user ${CIRCLE_PROJECT_USERNAME} \
                 --repo ${CIRCLE_PROJECT_REPONAME}\
-                --tag ${VERSION} &&
-            github-release upload \
-            --user ${CIRCLE_PROJECT_USERNAME} \
-            --repo ${CIRCLE_PROJECT_REPONAME} \
-            --tag ${VERSION} \
-            --name "simple-app-jar" \
-            --file target/*.jar  || echo "Tag '${VERSION}' already exist"
+                --tag ${VERSION} || echo "Tag '${VERSION}' already exist"
 
 workflows:
   build-and-deploy:
