@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   maven: circleci/maven@1.0.2
+  github-cli: circleci/github-cli@2.0.0
 
 
 jobs:
@@ -20,22 +21,15 @@ jobs:
 
   publish-github-release:
     docker:
-      - image: circleci/golang:1.8
+      - image: cimg/openjdk:8.0
     steps:
       - attach_workspace:
-          at: ./artifacts
-      - run:
-          name: "Publish Release on GitHub"
-          command: |
-            VERSION=$(cat artifacts/pom.xml | grep "<version>.*</version>" | head -1 |awk -F'[><]' '{print $3}')
-            go get github.com/github-release/github-release
-            github-release upload \
-            --user ${CIRCLE_PROJECT_USERNAME} \
-            --repo ${CIRCLE_PROJECT_REPONAME} \
-            --tag ${VERSION} \
-            --name "the wolf of source street" \
-            --file artifacts/target
-
+          at: .
+      - run: VERSION=$(cat artifacts/pom.xml | grep "<version>.*</version>" | head -1 |awk -F'[><]' '{print $3}')
+      - gh/release:
+          files: target/*.jar
+          notes-file: ./changelog.md
+          tag: $VERSION
 
 workflows:
   build-and-deploy:
